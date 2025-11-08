@@ -10,6 +10,23 @@ namespace _Scripts
         [SerializeField] private int numberOfGeneratorsToFail;// threshold value
         private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
+        [SerializeField] private AudioSource alarmSound;
+        public static int taskLength {get; private set;}=2;
+        private int ReparedCounter;
+
+        public static void RegisterRepair()
+        {
+            Instance.ReparedCounter++;
+            if (Instance.ReparedCounter >= 4)
+            {
+                taskLength++;
+                Instance.ReparedCounter = 0;
+            }
+        }
+        void Start()
+        {
+            failedGenerators=0;
+        }
         private void Awake()
         {
             //create singleton
@@ -37,7 +54,9 @@ namespace _Scripts
             }
             else
             {
-                Instance.Fail(id);
+                Instance.generators[id] = false;
+               // Instance.Fail(id);
+               Instance.FailGenerator();
             }
         }
 
@@ -60,6 +79,19 @@ namespace _Scripts
                 failedGenerators++;
             }
 
+            if (failedGenerators >= numberOfGeneratorsToFail)
+            {
+                Debug.Log("Game Over");
+            }
+        }
+
+        void FailGenerator()
+        {
+            failedGenerators++;
+            if (failedGenerators >= numberOfGeneratorsToFail / 2)
+            {
+                alarmSound.enabled = true;
+            }
             if (failedGenerators >= numberOfGeneratorsToFail)
             {
                 Debug.Log("Game Over");

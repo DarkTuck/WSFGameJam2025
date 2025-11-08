@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Random = UnityEngine.Random;
+using NaughtyAttributes;
 
 namespace _Scripts
 {
@@ -11,7 +12,6 @@ namespace _Scripts
      * - Generating Events
      * - Generating Required To be Input
      * - Handling that input
-     * [TODO]
      * - Time Limit
      * - Logic For Failed QTE
      * - Logic For Succeeded QTE
@@ -21,12 +21,13 @@ namespace _Scripts
         [SerializeField]QTEDisplay Display;
         [SerializeField] private int baseTimeLimit, timeLimitDecrease;
         [SerializeField] GeneratorScript generator;
-        private int timeLimit = 5; //test value;
+        [SerializeField] Vector2 minMaxTimeLimit;
+        //private int timeLimit = 5; //test value;
         Inputs inputs;
         readonly Vector2[] directions = new []{Vector2.up, Vector2.down, Vector2.left, Vector2.right};
         Vector2[] task;
         private int currentId = 0;
-        int taskLength = 4;
+        //int taskLength = 4;
         Coroutine timeLimitCoroutine;
         void Awake()
         {
@@ -60,15 +61,15 @@ namespace _Scripts
         }
         IEnumerator TimeLimit()
         {
-            yield return new WaitForSeconds(timeLimit);
-            Fail();
+            yield return new WaitForSeconds(Random.Range(minMaxTimeLimit.x, minMaxTimeLimit.y));
+            generator.FailRepair();
         }
         void GenerateTasks()
         {
             //Restart and/or Create QTE
             currentId = 0;
-            task = new Vector2[taskLength];
-            for (int i = 0; i < taskLength; i++)
+            task = new Vector2[GeneratorsManager.taskLength];
+            for (int i = 0; i < GeneratorsManager.taskLength; i++)
             {
                 task[i] = directions[Random.Range(0, directions.Length)];
                 Debug.Log(task[i]);
@@ -100,18 +101,23 @@ namespace _Scripts
         void Fail()
         {
             currentId = 0;
-            generator.FailRepair();
-            Display.Clear();
+            //generator.FailRepair();
+            Display.Restart();
+            //Display.Clear();
         }
         //TODO
         void Success()
         {
-            if (currentId >= taskLength)
+            if (currentId >= GeneratorsManager.taskLength)
             {
                 StopTimeLimit();
                 currentId = 0;
                 generator.SuccessRepair();
                 Display.Clear();
+                //inputs.Disable();
+                inputs.Player.Enable();
+                inputs.VQTE.Enable();
+                inputs.VQTE.Direction.performed-=TaskInput;
             }
         }
     }

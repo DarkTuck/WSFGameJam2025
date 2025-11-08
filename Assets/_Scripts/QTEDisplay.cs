@@ -67,6 +67,13 @@ namespace _Scripts
                 Destroy(textMeshProUGUI.gameObject);
             }
         }
-        
+        public void Restart()
+        {
+            CurrentCharacter(0);
+            for (int i = 1; i < text.Length; i++)
+            {
+                text[i].color = Color.white;
+            }
+        }
     }
 }

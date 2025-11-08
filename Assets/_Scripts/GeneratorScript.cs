@@ -7,11 +7,14 @@ namespace _Scripts
     public class GeneratorScript : MonoBehaviour
     {
         int id;
-        private Coroutine timeToFail,timeToDestroy;
-        [SerializeField]int timeLimit;
+        private Coroutine timeToFail,timeToDestroy,FailBatteryAnimation;
+        [SerializeField]Vector2 timeLimit;
+        [SerializeField] private int timeToDestroyMultiplayer;
         [SerializeField] private QTEScript qteScript;
+        [SerializeField] private GameObject[] batterySegments;
+        private SpriteRenderer[] batterySprites;
         Inputs inputs;
-        private bool readyToRepair,playerInRange;
+        private bool readyToRepair,playerInRange,isBlack;
         void Awake()
         {
             inputs = new Inputs();
@@ -31,6 +34,11 @@ namespace _Scripts
         void Start()
         {
             id = GeneratorsManager.RegisterGenerator();
+            batterySprites = new SpriteRenderer[batterySegments.Length];
+            for (int i = 0; i < batterySegments.Length; i++)
+            {
+                batterySprites[i] = batterySegments[i].GetComponent<SpriteRenderer>();
+            } 
             qteScript.enabled = false;
             timeToFail = StartCoroutine(TimeToFail());
         }
@@ -38,7 +46,7 @@ namespace _Scripts
         void StartRepair(InputAction.CallbackContext context)
         {
             if(!playerInRange)return;
-            StopCoroutine(timeToFail);
+            StopCoroutine(timeToDestroy);
             timeToFail = null;
             qteScript.enabled = true;
         }
@@ -46,6 +54,9 @@ namespace _Scripts
        public void SuccessRepair()
         {
             timeToFail = StartCoroutine(TimeToFail());
+            readyToRepair=false;
+            qteScript.enabled = false;
+            GeneratorsManager.RegisterRepair();
         }
 
         public void FailRepair()
@@ -54,9 +65,16 @@ namespace _Scripts
         }
         IEnumerator TimeToFail()
         {
-            yield return new WaitForSeconds(timeLimit);
+            float time = Random.Range(timeLimit.x, timeLimit.y);
+            float timeLeft = time;
+            while (timeLeft>=0)
+            {
+                timeLeft-=Time.deltaTime;
+                ChangeColorByState(time, timeLeft);
+                yield return null;
+            }
             timeToDestroy = StartCoroutine(TimeToDestroy());
-            inputs.Player.Enable();
+            //inputs.Player.Enable();
             readyToRepair = true;
             Debug.Log("Ready to repair");
         }
@@ -76,12 +94,126 @@ namespace _Scripts
 
         IEnumerator TimeToDestroy()
         {
-            yield return new WaitForSeconds(timeLimit*2);
+            float time = Random.Range(timeLimit.x, timeLimit.y)*timeToDestroyMultiplayer;
+            float timeLeft = time;
+            while (timeLeft>=0)
+            {
+                timeLeft-=Time.deltaTime;
+                yield return null;
+            }
             FailRepair();
+            //ChangeState(false);
         }
         void ChangeState(bool state)
         {
             GeneratorsManager.ChangeState(id,state);
         }
+        void ChangeColorByState(float baseValue,float currentValue)
+        {
+            float percent = currentValue/baseValue;
+            Debug.Log(percent);
+            switch (percent)
+            {
+                case var _ when percent is <= 0.0f:
+                    if(FailBatteryAnimation!=null) break;
+                    foreach (var t in batterySegments)
+                    {
+                        t.SetActive(true);
+                        //batterySprites[i].color=Color.black;
+                    }
+                    FailBatteryAnimation=StartCoroutine(BatteryAnimation());
+                    break;
+                case var _ when percent is > 0.0f and < 0.25f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                        if (i < 1)
+                        {
+                            batterySegments[i].SetActive(true);
+                            batterySprites[i].color=Color.red;
+                            continue;
+                        }
+                        batterySegments[i].SetActive(false);
+                    }
+                    break;
+                case var _ when percent is > 0.25f and < 0.50f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                        if (i < 2)
+                        {
+                            batterySegments[i].SetActive(true);
+                            batterySprites[i].color=Color.yellow;
+                            continue;
+                        }
+                        batterySegments[i].SetActive(false);
+                    }
+                    break;
+                case var _ when percent is > 0.50f and < 0.75f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                        if (i < 3)
+                        {
+                            batterySegments[i].SetActive(true);
+                            batterySprites[i].color=Color.darkGreen;
+                            continue;
+                        }
+                        batterySegments[i].SetActive(false);
+                    }
+                    break;
+                case var _ when percent is > 0.75f and < 1f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                        batterySegments[i].SetActive(true);
+                        batterySprites[i].color=Color.green;
+                    }
+                    break;
+            }
+            
+        }
+
+        IEnumerator BatteryAnimation()
+        {
+            while (true)
+            {
+                if (!isBlack)
+                {
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                    //batterySegments[i].SetActive(true);
+                    batterySprites[i].color=Color.black;
+                    } 
+                    isBlack=true;
+                    yield return new WaitForSeconds(1);
+                    continue;
+                }
+                for (int i = 0; i < batterySegments.Length; i++)
+                {
+                    //batterySegments[i].SetActive(true);
+                    batterySprites[i].color=Color.red;
+                }
+                isBlack=false;
+                yield return new WaitForSeconds(1);
+            }
+        }
     }
 }
+
