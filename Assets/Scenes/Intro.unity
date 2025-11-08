@@ -152,9 +152,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButtons
   images: []
-  sprites: []
+  sprites:
+  - {fileID: -2391729348913836090, guid: 940b27c2788a29a4bb06bb2eddd0d1b3, type: 3}
+  - {fileID: -2391729348913836090, guid: 940b27c2788a29a4bb06bb2eddd0d1b3, type: 3}
+  - {fileID: -2391729348913836090, guid: 940b27c2788a29a4bb06bb2eddd0d1b3, type: 3}
   textField: {fileID: 1726374640}
-  storyText: []
+  storyText:
+  - "Tak si\u0119 ciesz\u0119, \u017Ce nareszcie mog\u0119 przys\u0142u\u017Cy\u0107
+    si\u0119 naszej cudownej ojczy\u017Anie!"
+  - "M\xF3wi\u0119 oczywi\u015Bcie o mojej pracy przy tym absolutnie stabilnym reaktorze
+    j\u0105drowym."
+  - "Jak dobrze \u017Ce mojego pierwszego dnia w nowej pracy, czyli 26 kwietnia 1986
+    roku, nic z\u0142ego nie  mo\u017Ce si\u0119 wydarzy\u0107-"
   useSprites: 1
   playSoundAtStart: 0
   storyBoard: {fileID: 357375127}
@@ -239,6 +248,7 @@ RectTransform:
   - {fileID: 611042550}
   - {fileID: 1497357033}
   - {fileID: 1726374644}
+  - {fileID: 1324564089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -353,10 +363,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 10319565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 49}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -329}
+  m_SizeDelta: {x: 1126.8047, y: 182.8163}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611042551
 MonoBehaviour:
@@ -748,6 +758,81 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1324564088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324564089}
+  - component: {fileID: 1324564091}
+  - component: {fileID: 1324564090}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1324564089
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324564088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10319565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 892.46, y: -479.87}
+  m_SizeDelta: {x: 58.9133, y: 58.9133}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1324564090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324564088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -6465794756929756970, guid: 66201c000e304194c9afe69c5964eeaa, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1324564091
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324564088}
+  m_CullTransparentMesh: 1
 --- !u!1 &1497357032
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1497357033
 RectTransform:
   m_ObjectHideFlags: 0
@@ -784,7 +869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -124, y: 47}
+  m_AnchoredPosition: {x: -177, y: 104.59}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1497357034
@@ -830,7 +915,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1497357035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 10319561}
+        m_TargetAssemblyTypeName: UIButtons, Assembly-CSharp
+        m_MethodName: ChangeSprite
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1497357032}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1497357035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +1000,7 @@ MonoBehaviour:
   _tmpProText: {fileID: 1726374642}
   writer: 
   delayBeforeStart: 0
-  timeBtwChars: 0.1
+  timeBtwChars: 0.01
   leadingChar: 
   leadingCharBeforeDelay: 0
 --- !u!114 &1726374642
@@ -991,7 +1088,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 15, y: 15, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1021,8 +1118,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 112, y: 41}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 960.01, y: 211}
+  m_SizeDelta: {x: 1126.8, y: 182.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -13,7 +13,7 @@ public class typewriterUI : MonoBehaviour
 	[SerializeField] float timeBtwChars = 0.1f;
 	[SerializeField] string leadingChar = "";
 	[SerializeField] bool leadingCharBeforeDelay = false;
-	Coroutine typing;
+	Coroutine typing = null;
 
     private void Start()
     {
@@ -28,7 +28,7 @@ public class typewriterUI : MonoBehaviour
             StopCoroutine(typing);
             typing = null;
         }
-		_tmpProText.text = "";
+		//_tmpProText.text = "";
 		typing = StartCoroutine("TypeWriterTMP");
 	}
 

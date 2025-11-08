@@ -1,9 +1,11 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using NaughtyAttributes;
+using UnityEngine.Windows;
 
 public class UIButtons : MonoBehaviour
 {
@@ -17,9 +19,24 @@ public class UIButtons : MonoBehaviour
     int index,maxIndex;
     [SerializeField, EnableIf("useSprites")] Image storyBoard;
     [SerializeField] string SceneName,endText;
+    private Inputs inputs;
+    private InputAction nextline;
+
+    private void Awake()
+    {
+        inputs = new Inputs();
+    }
+
+    private void OnEnable()
+    {
+        inputs.Enable();
+        nextline = inputs.Dialogue.NextLine;
+    }
+
     private void OnDisable()
     {
         index = 0;
+        inputs.Disable();
     }
     private void Start()
     {
@@ -32,7 +49,15 @@ public class UIButtons : MonoBehaviour
         maxIndex=sprites.Length - 1;
         storyBoard.sprite = sprites[index];
         type = textField.GetComponent<typewriterUI>();
-        
+        type.Write();
+    }
+
+    private void Update()
+    {
+        nextline.performed += context =>
+        {
+            ChangeSprite();
+        };
     }
     void LoadScene(string sceneName)
     {
@@ -58,11 +83,12 @@ public class UIButtons : MonoBehaviour
         }
         LoadScene(SceneName);
     }
-    public void ChangeSprite(GameObject button)
+    //public void ChangeSprite(GameObject button)
+    public void ChangeSprite()
     {
         if (index < maxIndex)
         {
-            if (index > maxIndex - 2) { ChangeText(button); }
+            //if (index > maxIndex - 2) { ChangeText(button); }
             index++;
             storyBoard.sprite = sprites[index];
             type.writer = storyText[index];
