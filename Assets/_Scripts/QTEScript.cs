@@ -113,6 +113,10 @@ namespace _Scripts
                 currentId = 0;
                 generator.SuccessRepair();
                 Display.Clear();
+                //inputs.Disable();
+                inputs.Player.Enable();
+                inputs.VQTE.Enable();
+                inputs.VQTE.Direction.performed-=TaskInput;
             }
         }
     }

@@ -46,6 +46,8 @@ namespace _Scripts
        public void SuccessRepair()
         {
             timeToFail = StartCoroutine(TimeToFail());
+            readyToRepair=false;
+            qteScript.enabled = false;
         }
 
         public void FailRepair()
@@ -56,7 +58,7 @@ namespace _Scripts
         {
             yield return new WaitForSeconds(timeLimit);
             timeToDestroy = StartCoroutine(TimeToDestroy());
-            inputs.Player.Enable();
+            //inputs.Player.Enable();
             readyToRepair = true;
             Debug.Log("Ready to repair");
         }
