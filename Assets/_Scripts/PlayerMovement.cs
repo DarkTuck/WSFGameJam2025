@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed=5;
     private Transform player;
     private Rigidbody2D rb;
+    private SpriteRenderer sprite;
+    private Animator animator;
 
     private bool canMove = true;
     private bool canClimb = false;
@@ -35,7 +37,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         player = gameObject.GetComponent<Transform>();
-        rb = gameObject.GetComponent<Rigidbody2D>(); 
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -49,21 +53,39 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = move.ReadValue<Vector2>();
 
 
-        if (canMove && (moveInput == Vector2.left || moveInput == Vector2.right))
+        if (canMove && (moveInput == Vector2.left || moveInput == Vector2.right)) //moving on x-axis and sprite flip 
         {
             player.Translate(moveInput * moveSpeed, Space.Self);
+
+            if (moveInput == Vector2.left)
+            {
+                sprite.flipX = false;
+            }
+            if (moveInput == Vector2.right)
+            {
+                sprite.flipX = true;
+            }
+
+            animator.SetBool("isWalking", true); //enable walking animation
         }
 
-        if (canClimb) 
+        if (canClimb) //climbing mechanic and animation
         {
             if (moveInput == Vector2.up || moveInput == Vector2.down)
             {
                 rb.bodyType = RigidbodyType2D.Kinematic;
                 player.Translate(moveInput * moveSpeed, Space.Self);
+                animator.SetBool("isClimbing", true);
             }
         } else
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
+            animator.SetBool("isClimbing", false);
+        }
+
+        if (moveInput == Vector2.zero) //disable walking animation
+        {
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -84,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Ladder"))
         {
-            Debug.Log(collision.name + " dostêpna");
             canClimb = true;
         }
 
@@ -97,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Ladder"))
         {
-            Debug.Log(collision.name + " za daleko");
             canClimb = false;
         }
 
