@@ -9,7 +9,7 @@ namespace _Scripts
         int id;
         private Coroutine timeToFail,timeToDestroy,FailBatteryAnimation;
         [SerializeField]Vector2 timeLimit;
-        [SerializeField] private int timeToDestroyMultiplayer;
+        [SerializeField] private float timeToDestroyMultiplayer;
         [SerializeField] private QTEScript qteScript;
         [SerializeField] private GameObject[] batterySegments;
         private SpriteRenderer[] batterySprites;
@@ -45,7 +45,7 @@ namespace _Scripts
 
         void StartRepair(InputAction.CallbackContext context)
         {
-            if(!playerInRange)return;
+            if(!playerInRange||!readyToRepair)return;
             StopCoroutine(timeToDestroy);
             timeToFail = null;
             qteScript.enabled = true;
@@ -57,6 +57,7 @@ namespace _Scripts
             readyToRepair=false;
             qteScript.enabled = false;
             GeneratorsManager.RegisterRepair();
+            timeLimit=new Vector2(timeLimit.x-0.5f, timeLimit.y-0.5f);
         }
 
         public void FailRepair()
@@ -81,14 +82,14 @@ namespace _Scripts
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (!readyToRepair || !other.CompareTag("Player")) return;
+            if (!other.CompareTag("Player")) return;
             Debug.Log("player entered");
             playerInRange = true;
         }
 
         void OnTriggerExit2D(Collider2D other)
         {
-            if (!readyToRepair || !other.CompareTag("Player")) return;
+            if (!other.CompareTag("Player")) return;
             playerInRange = false;
         }
 
@@ -102,6 +103,8 @@ namespace _Scripts
                 yield return null;
             }
             FailRepair();
+            timeToDestroy = null;
+            timeToDestroy = StartCoroutine(TimeToDestroy());
             //ChangeState(false);
         }
         void ChangeState(bool state)
@@ -111,7 +114,7 @@ namespace _Scripts
         void ChangeColorByState(float baseValue,float currentValue)
         {
             float percent = currentValue/baseValue;
-            Debug.Log(percent);
+            //Debug.Log(percent);
             switch (percent)
             {
                 case var _ when percent is <= 0.0f:

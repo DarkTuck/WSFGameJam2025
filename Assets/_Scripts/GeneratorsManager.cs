@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace _Scripts
@@ -8,9 +9,10 @@ namespace _Scripts
     {
         public static GeneratorsManager Instance; //class singleton
         [SerializeField] private int numberOfGeneratorsToFail;// threshold value
-        private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
+        [ShowNonSerializedField]private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
         [SerializeField] private AudioSource alarmSound;
+        [SerializeField] GameObject GameOver;
         public static int taskLength {get; private set;}=2;
         private int ReparedCounter;
 
@@ -81,7 +83,9 @@ namespace _Scripts
 
             if (failedGenerators >= numberOfGeneratorsToFail)
             {
-                Debug.Log("Game Over");
+                Time.timeScale = 0;
+                GameOver.SetActive(true);
+                alarmSound.enabled = false;
             }
         }
 
@@ -94,7 +98,9 @@ namespace _Scripts
             }
             if (failedGenerators >= numberOfGeneratorsToFail)
             {
-                Debug.Log("Game Over");
+                Time.timeScale = 0;
+                GameOver.SetActive(true);
+                alarmSound.enabled = false;
             }
         }
     }

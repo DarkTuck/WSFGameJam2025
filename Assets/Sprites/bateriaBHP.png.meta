@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 807a779d837fb594cb908bdac1274b22
+guid: d0d6d40af500b479389e6cf9496422a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9094194020031217233
-    second: BackgroundBhp_0
+      213: -6606422109157553980
+    second: bateriaBHP_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackgroundBhp_0
+      name: bateriaBHP_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        x: 20
+        y: 4
+        width: 147
+        height: 216
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa1ce8dc8beeac180800000000000000
-      internalID: -9094194020031217233
+      spriteID: 4c8806318164154a0800000000000000
+      internalID: -6606422109157553980
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BackgroundBhp_0: -9094194020031217233
+      bateriaBHP_0: -6606422109157553980
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

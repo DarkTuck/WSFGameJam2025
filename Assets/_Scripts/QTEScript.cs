@@ -22,6 +22,7 @@ namespace _Scripts
         [SerializeField] private int baseTimeLimit, timeLimitDecrease;
         [SerializeField] GeneratorScript generator;
         [SerializeField] Vector2 minMaxTimeLimit;
+        [SerializeField] PlayerMovement player;
         //private int timeLimit = 5; //test value;
         Inputs inputs;
         readonly Vector2[] directions = new []{Vector2.up, Vector2.down, Vector2.left, Vector2.right};
@@ -39,13 +40,14 @@ namespace _Scripts
             inputs.Enable();
             inputs.Player.Disable();
             inputs.VQTE.Enable();
-            inputs.VQTE.Direction.performed+=TaskInput;
+            inputs.VQTE.Direction.started+=TaskInput;
             StartTimeLimit();
         }
         //Temporary only for testing [TODO] delete this when logic will be added and working
         private void OnEnable()
         {
             GenerateTasks();
+            player.enabled=false;
         }
 
         void StartTimeLimit()
@@ -80,6 +82,7 @@ namespace _Scripts
         }
         void TaskInput(InputAction.CallbackContext context)
         {
+           // Debug.Log(context.ReadValue<Vector2>().ToString());
             if (context.ReadValue<Vector2>() == task[currentId])
             {
                 //change highlighted step and check if QTE was done
@@ -117,7 +120,8 @@ namespace _Scripts
                 //inputs.Disable();
                 inputs.Player.Enable();
                 inputs.VQTE.Enable();
-                inputs.VQTE.Direction.performed-=TaskInput;
+                inputs.VQTE.Direction.started-=TaskInput;
+                player.enabled = true;
             }
         }
     }
