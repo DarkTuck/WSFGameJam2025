@@ -19,11 +19,15 @@ namespace _Scripts
     public class QTEScript : MonoBehaviour
     {
         [SerializeField]QTEDisplay Display;
+        [SerializeField] private int baseTimeLimit, timeLimitDecrease;
+        [SerializeField] GeneratorScript generator;
+        private int timeLimit = 5; //test value;
         Inputs inputs;
-        Vector2[] directions = new []{Vector2.up, Vector2.down, Vector2.left, Vector2.right};
+        readonly Vector2[] directions = new []{Vector2.up, Vector2.down, Vector2.left, Vector2.right};
         Vector2[] task;
         private int currentId = 0;
         int taskLength = 4;
+        Coroutine timeLimitCoroutine;
         void Awake()
         {
             inputs = new Inputs();
@@ -35,11 +39,29 @@ namespace _Scripts
             inputs.Player.Disable();
             inputs.VQTE.Enable();
             inputs.VQTE.Direction.performed+=TaskInput;
+            StartTimeLimit();
         }
         //Temporary only for testing [TODO] delete this when logic will be added and working
-        private void Start()
+        private void OnEnable()
         {
             GenerateTasks();
+        }
+
+        void StartTimeLimit()
+        {
+            timeLimitCoroutine ??= StartCoroutine(TimeLimit());
+        }
+
+        void StopTimeLimit()
+        {
+            if (timeLimitCoroutine == null) return;
+            StopCoroutine(timeLimitCoroutine);
+            timeLimitCoroutine = null;
+        }
+        IEnumerator TimeLimit()
+        {
+            yield return new WaitForSeconds(timeLimit);
+            Fail();
         }
         void GenerateTasks()
         {
@@ -78,13 +100,18 @@ namespace _Scripts
         void Fail()
         {
             currentId = 0;
+            generator.FailRepair();
+            Display.Clear();
         }
         //TODO
         void Success()
         {
             if (currentId >= taskLength)
             {
+                StopTimeLimit();
                 currentId = 0;
+                generator.SuccessRepair();
+                Display.Clear();
             }
         }
     }

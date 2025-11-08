@@ -59,6 +59,14 @@ namespace _Scripts
         {
            text[id].color = Color.green;
         }
+
+        public void Clear()
+        {
+            foreach (var textMeshProUGUI in text)
+            {
+                Destroy(textMeshProUGUI.gameObject);
+            }
+        }
         
     }
 }
