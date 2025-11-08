@@ -7,14 +7,14 @@ namespace _Scripts
     public class GeneratorScript : MonoBehaviour
     {
         int id;
-        private Coroutine timeToFail,timeToDestroy;
+        private Coroutine timeToFail,timeToDestroy,FailBatteryAnimation;
         [SerializeField]Vector2 timeLimit;
         [SerializeField] private int timeToDestroyMultiplayer;
         [SerializeField] private QTEScript qteScript;
         [SerializeField] private GameObject[] batterySegments;
         private SpriteRenderer[] batterySprites;
         Inputs inputs;
-        private bool readyToRepair,playerInRange;
+        private bool readyToRepair,playerInRange,isBlack;
         void Awake()
         {
             inputs = new Inputs();
@@ -114,7 +114,21 @@ namespace _Scripts
             Debug.Log(percent);
             switch (percent)
             {
+                case var _ when percent is <= 0.0f:
+                    if(FailBatteryAnimation!=null) break;
+                    foreach (var t in batterySegments)
+                    {
+                        t.SetActive(true);
+                        //batterySprites[i].color=Color.black;
+                    }
+                    FailBatteryAnimation=StartCoroutine(BatteryAnimation());
+                    break;
                 case var _ when percent is > 0.0f and < 0.25f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
                     for (int i = 0; i < batterySegments.Length; i++)
                     {
                         if (i < 1)
@@ -127,6 +141,11 @@ namespace _Scripts
                     }
                     break;
                 case var _ when percent is > 0.25f and < 0.50f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
                     for (int i = 0; i < batterySegments.Length; i++)
                     {
                         if (i < 2)
@@ -139,6 +158,11 @@ namespace _Scripts
                     }
                     break;
                 case var _ when percent is > 0.50f and < 0.75f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
                     for (int i = 0; i < batterySegments.Length; i++)
                     {
                         if (i < 3)
@@ -151,6 +175,11 @@ namespace _Scripts
                     }
                     break;
                 case var _ when percent is > 0.75f and < 1f:
+                    if (FailBatteryAnimation != null)
+                    {
+                        StopCoroutine(FailBatteryAnimation);
+                        FailBatteryAnimation=null;
+                    }
                     for (int i = 0; i < batterySegments.Length; i++)
                     {
                         batterySegments[i].SetActive(true);
@@ -159,6 +188,31 @@ namespace _Scripts
                     break;
             }
             
+        }
+
+        IEnumerator BatteryAnimation()
+        {
+            while (true)
+            {
+                if (!isBlack)
+                {
+                    for (int i = 0; i < batterySegments.Length; i++)
+                    {
+                    //batterySegments[i].SetActive(true);
+                    batterySprites[i].color=Color.black;
+                    } 
+                    isBlack=true;
+                    yield return new WaitForSeconds(1);
+                    continue;
+                }
+                for (int i = 0; i < batterySegments.Length; i++)
+                {
+                    //batterySegments[i].SetActive(true);
+                    batterySprites[i].color=Color.red;
+                }
+                isBlack=false;
+                yield return new WaitForSeconds(1);
+            }
         }
     }
 }
