@@ -10,6 +10,7 @@ namespace _Scripts
         [SerializeField] private int numberOfGeneratorsToFail;// threshold value
         private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
+        [SerializeField] private AudioSource alarmSound;
         public static int taskLength {get; private set;}=2;
         private int ReparedCounter;
 
@@ -87,6 +88,10 @@ namespace _Scripts
         void FailGenerator()
         {
             failedGenerators++;
+            if (failedGenerators >= numberOfGeneratorsToFail / 2)
+            {
+                alarmSound.enabled = true;
+            }
             if (failedGenerators >= numberOfGeneratorsToFail)
             {
                 Debug.Log("Game Over");
