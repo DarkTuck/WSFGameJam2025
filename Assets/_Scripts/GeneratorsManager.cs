@@ -10,7 +10,18 @@ namespace _Scripts
         [SerializeField] private int numberOfGeneratorsToFail;// threshold value
         private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
+        public static int taskLength {get; private set;}=2;
+        private int ReparedCounter;
 
+        public static void RegisterRepair()
+        {
+            Instance.ReparedCounter++;
+            if (Instance.ReparedCounter >= 4)
+            {
+                taskLength++;
+                Instance.ReparedCounter = 0;
+            }
+        }
         void Start()
         {
             failedGenerators=0;
