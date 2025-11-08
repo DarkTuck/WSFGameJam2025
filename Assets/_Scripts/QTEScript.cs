@@ -61,7 +61,7 @@ namespace _Scripts
         IEnumerator TimeLimit()
         {
             yield return new WaitForSeconds(timeLimit);
-            Fail();
+            generator.FailRepair();
         }
         void GenerateTasks()
         {
@@ -100,8 +100,9 @@ namespace _Scripts
         void Fail()
         {
             currentId = 0;
-            generator.FailRepair();
-            Display.Clear();
+            //generator.FailRepair();
+            Display.Restart();
+            //Display.Clear();
         }
         //TODO
         void Success()

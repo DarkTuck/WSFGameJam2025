@@ -38,7 +38,7 @@ namespace _Scripts
         void StartRepair(InputAction.CallbackContext context)
         {
             if(!playerInRange)return;
-            StopCoroutine(timeToFail);
+            StopCoroutine(timeToDestroy);
             timeToFail = null;
             qteScript.enabled = true;
         }
@@ -78,6 +78,7 @@ namespace _Scripts
         {
             yield return new WaitForSeconds(timeLimit*2);
             FailRepair();
+            //ChangeState(false);
         }
         void ChangeState(bool state)
         {
