@@ -6,6 +6,16 @@ using Random = UnityEngine.Random;
 
 namespace _Scripts
 {
+    /*
+     * This script handles Quick Time Events Logic such as:
+     * - Generating Events
+     * - Generating Required To be Input
+     * - Handling that input
+     * [TODO]
+     * - Time Limit
+     * - Logic For Failed QTE
+     * - Logic For Succeeded QTE
+     */
     public class QTEScript : MonoBehaviour
     {
         [SerializeField]QTEDisplay Display;
@@ -18,7 +28,7 @@ namespace _Scripts
         {
             inputs = new Inputs();
         }
-
+        //Enables Input for QTE
         void StartTask()
         {
             inputs.Enable();
@@ -26,14 +36,14 @@ namespace _Scripts
             inputs.VQTE.Enable();
             inputs.VQTE.Direction.performed+=TaskInput;
         }
-
+        //Temporary only for testing [TODO] delete this when logic will be added and working
         private void Start()
         {
             GenerateTasks();
         }
-
         void GenerateTasks()
         {
+            //Restart and/or Create QTE
             currentId = 0;
             task = new Vector2[taskLength];
             for (int i = 0; i < taskLength; i++)
@@ -49,11 +59,14 @@ namespace _Scripts
         {
             if (context.ReadValue<Vector2>() == task[currentId])
             {
+                //change highlighted step and check if QTE was done
                 Debug.Log("Success");
                 Display.SuccessCharacter(currentId);
                 currentId++;
-                Display.CurrentCharacter(currentId);
                 Success();
+                //if not continue [TODO] this won't work without logic for exiting When Success
+                Display.CurrentCharacter(currentId);
+
             }
             else
             {
@@ -61,12 +74,12 @@ namespace _Scripts
                 Fail();
             }
         }
-
+        //TODO
         void Fail()
         {
             currentId = 0;
         }
-
+        //TODO
         void Success()
         {
             if (currentId >= taskLength)

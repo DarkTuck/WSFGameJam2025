@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction move;
     [SerializeField] private float moveSpeed=5;
     private Transform player;
-    
+    //TODO laders and locking up/down movement if not on laders
     #region Inputs
     private void Awake()
     {

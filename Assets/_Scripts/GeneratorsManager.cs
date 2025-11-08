@@ -6,13 +6,13 @@ namespace _Scripts
 {
     public class GeneratorsManager : MonoBehaviour
     {
-        public static GeneratorsManager Instance;
+        public static GeneratorsManager Instance; //class singleton
         [SerializeField] private int numberOfGeneratorsToFail;// threshold value
         private int failedGenerators = 0;// currently failed generators, used to compare to fail threshold
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
-
         private void Awake()
         {
+            //create singleton
             if (Instance == null)
             {
                 Instance = this;
@@ -22,13 +22,13 @@ namespace _Scripts
         {
             return Instance.Register();
         }
-
+        //adds generator to list stores only status and returns id to generator
         private int Register()
         {
             generators.Add(true);
             return generators.Count-1;
         }
-
+        //change state of the generator uses id given to the generator earlier
         public static void ChangeState(int id,bool state)
         {
             if (state)
@@ -51,6 +51,7 @@ namespace _Scripts
         {
             generators[id] = true;
         }
+        //Check if required number of generators failed TODO game over
         void CheckFailedGenerator()
         {
             failedGenerators=0;

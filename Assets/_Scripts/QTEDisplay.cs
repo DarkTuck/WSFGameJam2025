@@ -4,12 +4,17 @@ using TMPro;
 
 namespace _Scripts
 {
+    /*
+     * This Script Is Responsible only for Displaying QTE and Handles all things around it
+     */
     public class QTEDisplay : MonoBehaviour
     {
         //[SerializeField] private TextMeshProUGUI text;
         [SerializeField] private float gridOffset;
         [SerializeField] private GameObject prefab;
         private TextMeshProUGUI[] text;
+        //this dictionary is responsible for translating Vector2 input of QTE to visuals (currently characters)
+        //can be changed if needed to images
         private Dictionary<Vector2, string> displayDirections = new Dictionary<Vector2, string>
         {
             { Vector2.up, "↑" },
@@ -22,6 +27,7 @@ namespace _Scripts
         {
             _rectTransform = GetComponent<RectTransform>();
         }
+        //get and display QTE task
         public void WriteCharacters(Vector2[] characters)
         {
             Vector2 origin = transform.position;
@@ -33,7 +39,7 @@ namespace _Scripts
                 text[i].text = displayDirections[characters[i]];
             }
         }
-
+        //Creates displayable field for QTE task
         void SpawnObject(int id)
         {
             var go = Instantiate(prefab,_rectTransform);
@@ -43,12 +49,12 @@ namespace _Scripts
             text[id] = go.GetComponent<TextMeshProUGUI>();
 
         }
-
+        //Change color of current(ly required) character
         public void CurrentCharacter(int id)
         {
             text[id].color = Color.gold;
         }
-
+        //Marks character if Succeeded 
         public void SuccessCharacter(int id)
         {
            text[id].color = Color.green;
