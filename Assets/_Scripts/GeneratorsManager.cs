@@ -29,15 +29,27 @@ namespace _Scripts
             return generators.Count-1;
         }
 
-        public static void FailGenerator(int id)
+        public static void ChangeState(int id,bool state)
         {
-            Instance.Fail(id);
+            if (state)
+            {
+                Instance.Repair(id);
+            }
+            else
+            {
+                Instance.Fail(id);
+            }
         }
 
         private void Fail(int id)
         {
             generators[id] = false;
             CheckFailedGenerator();
+        }
+
+        private void Repair(int id)
+        {
+            generators[id] = true;
         }
         void CheckFailedGenerator()
         {

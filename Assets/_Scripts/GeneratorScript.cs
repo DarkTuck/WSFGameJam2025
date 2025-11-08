@@ -11,9 +11,9 @@ namespace _Scripts
             id = GeneratorsManager.RegisterGenerator();
         }
 
-        void Fail()
+        void ChangeState(bool state)
         {
-            GeneratorsManager.FailGenerator(id);
+            GeneratorsManager.ChangeState(id,state);
         }
     }
 }
