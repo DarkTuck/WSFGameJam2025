@@ -23,6 +23,8 @@ namespace _Scripts
         [SerializeField] GeneratorScript generator;
         [SerializeField] Vector2 minMaxTimeLimit;
         [SerializeField] PlayerMovement player;
+        [SerializeField] AudioClip[] sounds; //0 - succes 1 - fail 2-4 - Task Sounds
+        [SerializeField] AudioSource audioSource;
         //private int timeLimit = 5; //test value;
         Inputs inputs;
         readonly Vector2[] directions = new []{Vector2.up, Vector2.down, Vector2.left, Vector2.right};
@@ -82,6 +84,7 @@ namespace _Scripts
         }
         void TaskInput(InputAction.CallbackContext context)
         {
+            audioSource.PlayOneShot(sounds[Random.Range(2,4)]);
            // Debug.Log(context.ReadValue<Vector2>().ToString());
             if (context.ReadValue<Vector2>() == task[currentId])
             {
@@ -93,9 +96,11 @@ namespace _Scripts
                 //if not continue [TODO] this won't work without logic for exiting When Success
                 Display.CurrentCharacter(currentId);
 
+
             }
             else
             {
+
                 Debug.Log("Fail");
                 Fail();
             }
@@ -103,6 +108,7 @@ namespace _Scripts
         //TODO
         void Fail()
         {
+            audioSource.PlayOneShot(sounds[1]);
             currentId = 0;
             //generator.FailRepair();
             Display.Restart();
@@ -112,7 +118,8 @@ namespace _Scripts
         void Success()
         {
             if (currentId >= GeneratorsManager.taskLength)
-            {
+            {                
+                audioSource.PlayOneShot(sounds[0]);
                 StopTimeLimit();
                 currentId = 0;
                 generator.SuccessRepair();

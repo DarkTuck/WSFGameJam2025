@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace _Scripts
 {
@@ -13,8 +15,10 @@ namespace _Scripts
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
         [SerializeField] private AudioSource alarmSound;
         [SerializeField] GameObject GameOver;
+        [SerializeField] Volume volumeComponent;
         public static int taskLength {get; private set;}=2;
         private int ReparedCounter;
+        bool alarmLightsEnabeld = false;
 
         public static void RegisterRepair()
         {
@@ -95,12 +99,38 @@ namespace _Scripts
             if (failedGenerators >= numberOfGeneratorsToFail / 2)
             {
                 alarmSound.enabled = true;
+                if (!alarmLightsEnabeld)
+                {
+                    StartCoroutine(LightEffect());
+                    alarmLightsEnabeld = true;
+                }
             }
             if (failedGenerators >= numberOfGeneratorsToFail)
             {
                 Time.timeScale = 0;
                 GameOver.SetActive(true);
                 alarmSound.enabled = false;
+            }
+        }
+
+        IEnumerator LightEffect()
+        {
+            bool reverse = false;
+            float currentWeight = 0;
+            while (true)
+            {
+                if(!reverse && currentWeight>= 1) reverse = true;
+                if (reverse&&currentWeight <= 0) reverse = false;
+                if (reverse)
+                {
+                    currentWeight -= Time.deltaTime;
+                }
+                else
+                {
+                    currentWeight += Time.deltaTime;
+                }
+                volumeComponent.weight=currentWeight;
+                yield return new WaitForEndOfFrame();
             }
         }
     }
