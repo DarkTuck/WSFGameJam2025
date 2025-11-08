@@ -7,7 +7,7 @@ using NaughtyAttributes;
 
 public class UIButtons : MonoBehaviour
 {
-    [SerializeField] GameObject[] images;
+    [SerializeField, HideIf("useSprites")] GameObject[] images;
     [SerializeField] Sprite[] sprites;
     [SerializeField] GameObject textField;
     [SerializeField] string[] storyText;
