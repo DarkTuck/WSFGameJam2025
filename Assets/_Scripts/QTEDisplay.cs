@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace _Scripts
 {
@@ -12,15 +13,15 @@ namespace _Scripts
         //[SerializeField] private TextMeshProUGUI text;
         [SerializeField] private float gridOffset;
         [SerializeField] private GameObject prefab;
-        private TextMeshProUGUI[] text;
+        private GameObject[] arrows;
         //this dictionary is responsible for translating Vector2 input of QTE to visuals (currently characters)
         //can be changed if needed to images
-        private Dictionary<Vector2, string> displayDirections = new Dictionary<Vector2, string>
+        private Dictionary<Vector2, float> displayDirections = new Dictionary<Vector2, float>
         {
-            { Vector2.up, "↑" },
-            { Vector2.down, "↓" },
-            { Vector2.left, "←" },
-            { Vector2.right, "→" }
+            { Vector2.up, 0f},
+            { Vector2.down, 180f },
+            { Vector2.left, 90f },
+            { Vector2.right, 270f }
         };
         private RectTransform _rectTransform;
         void Start()
@@ -31,48 +32,49 @@ namespace _Scripts
         public void WriteCharacters(Vector2[] characters)
         {
             Vector2 origin = transform.position;
-            text = new TextMeshProUGUI[characters.Length];
-            for (int i = 0; i < text.Length; i++)
+            arrows= new GameObject[characters.Length];
+            for (int i = 0; i < arrows.Length; i++)
             {
                 Vector2 spawnPosition = new Vector2(i*gridOffset, 0)+origin;
-                SpawnObject(i);
-                text[i].text = displayDirections[characters[i]];
+                SpawnObject(i,characters[i]);
+                //arrows[i].transform.rotation = new Quaternion(0,0,displayDirections[characters[i]],0);
             }
         }
         //Creates displayable field for QTE task
-        void SpawnObject(int id)
+        void SpawnObject(int id,Vector2 character)
         {
             var go = Instantiate(prefab,_rectTransform);
             RectTransform goTransform = go.GetComponent<RectTransform>();
             goTransform.anchoredPosition = new Vector2((gridOffset*id), 0);
+            goTransform.rotation = Quaternion.Euler(0f, 0f, displayDirections[character]);
             go.name = id.ToString();
-            text[id] = go.GetComponent<TextMeshProUGUI>();
+            arrows[id] = go;
 
         }
         //Change color of current(ly required) character
         public void CurrentCharacter(int id)
         {
-            text[id].color = Color.gold;
+            arrows[id].GetComponent<Image>().color = Color.gold;
         }
         //Marks character if Succeeded 
         public void SuccessCharacter(int id)
         {
-           text[id].color = Color.green;
+            arrows[id].GetComponent<Image>().color = Color.green;
         }
 
         public void Clear()
         {
-            foreach (var textMeshProUGUI in text)
+            foreach (var arrow in arrows)
             {
-                Destroy(textMeshProUGUI.gameObject);
+                Destroy(arrow.gameObject);
             }
         }
         public void Restart()
         {
             CurrentCharacter(0);
-            for (int i = 1; i < text.Length; i++)
+            for (int i = 1; i < arrows.Length; i++)
             {
-                text[i].color = Color.white;
+                arrows[i].GetComponent<Image>().color  = Color.white;
             }
         }
     }
