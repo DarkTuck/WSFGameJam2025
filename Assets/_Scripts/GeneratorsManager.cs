@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -17,12 +18,16 @@ namespace _Scripts
         [SerializeField] GameObject GameOver;
         [SerializeField] GameObject[] audioSources;
         [SerializeField] Volume volumeComponent;
+        [SerializeField] private TextMeshProUGUI scoreText;
+        private int score;
         public static int taskLength {get; private set;}=2;
         private int ReparedCounter;
         bool alarmLightsEnabeld = false;
 
         public static void RegisterRepair()
         {
+            Instance.score++;
+            Instance.scoreText.text = Instance.score.ToString();
             Instance.ReparedCounter++;
             if (Instance.ReparedCounter >= 4)
             {
