@@ -15,6 +15,7 @@ namespace _Scripts
         [SerializeField] private List<bool> generators; //stores status of generator (true-working false-failed)
         [SerializeField] private AudioSource alarmSound;
         [SerializeField] GameObject GameOver;
+        [SerializeField] GameObject[] audioSources;
         [SerializeField] Volume volumeComponent;
         public static int taskLength {get; private set;}=2;
         private int ReparedCounter;
@@ -110,6 +111,7 @@ namespace _Scripts
                 Time.timeScale = 0;
                 GameOver.SetActive(true);
                 alarmSound.enabled = false;
+                foreach (var source in audioSources) { source.SetActive(false); }
             }
         }
 

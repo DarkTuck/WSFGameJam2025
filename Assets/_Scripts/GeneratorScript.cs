@@ -12,6 +12,7 @@ namespace _Scripts
         [SerializeField] private float timeToDestroyMultiplayer;
         [SerializeField] private QTEScript qteScript;
         [SerializeField] private GameObject[] batterySegments;
+        [SerializeField] private GameObject interactInfo;
         private SpriteRenderer[] batterySprites;
         Inputs inputs;
         private bool readyToRepair,playerInRange,isBlack;
@@ -24,6 +25,7 @@ namespace _Scripts
         {
             inputs.Player.Enable();
             inputs.Player.Interact.started+=StartRepair;
+            interactInfo.SetActive(false);
         }
 
         void OnDisable()
@@ -46,6 +48,7 @@ namespace _Scripts
         void StartRepair(InputAction.CallbackContext context)
         {
             if(!playerInRange||!readyToRepair)return;
+            interactInfo.SetActive(false);
             StopCoroutine(timeToDestroy);
             timeToFail = null;
             qteScript.enabled = true;
@@ -85,12 +88,14 @@ namespace _Scripts
             if (!other.CompareTag("Player")) return;
             Debug.Log("player entered");
             playerInRange = true;
+            if (readyToRepair) interactInfo.SetActive(true);
         }
 
         void OnTriggerExit2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
             playerInRange = false;
+            interactInfo.SetActive(false);
         }
 
         IEnumerator TimeToDestroy()
@@ -154,7 +159,7 @@ namespace _Scripts
                         if (i < 2)
                         {
                             batterySegments[i].SetActive(true);
-                            batterySprites[i].color=Color.yellow;
+                            batterySprites[i].color=Color.darkOrange;
                             continue;
                         }
                         batterySegments[i].SetActive(false);
@@ -171,7 +176,7 @@ namespace _Scripts
                         if (i < 3)
                         {
                             batterySegments[i].SetActive(true);
-                            batterySprites[i].color=Color.darkGreen;
+                            batterySprites[i].color=Color.yellow;
                             continue;
                         }
                         batterySegments[i].SetActive(false);
@@ -205,7 +210,7 @@ namespace _Scripts
                     batterySprites[i].color=Color.black;
                     } 
                     isBlack=true;
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(0.5f);
                     continue;
                 }
                 for (int i = 0; i < batterySegments.Length; i++)
@@ -214,7 +219,7 @@ namespace _Scripts
                     batterySprites[i].color=Color.red;
                 }
                 isBlack=false;
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }

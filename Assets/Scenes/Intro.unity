@@ -179,7 +179,7 @@ MonoBehaviour:
   - "M\xF3wi\u0119 oczywi\u015Bcie o mojej pracy przy tym absolutnie stabilnym reaktorze
     j\u0105drowym."
   - "Jak dobrze \u017Ce mojego pierwszego dnia w nowej pracy, czyli 26 kwietnia 1986
-    roku, nic z\u0142ego nie  mo\u017Ce si\u0119 wydarzy\u0107-"
+    roku, nic z\u0142ego nie mo\u017Ce si\u0119 wydarzy\u0107-"
   - Ah, tak! Praca!
   - '(odbiera telefon) '
   - Halo?
@@ -1085,8 +1085,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 72833b3d0357fe14c84221f3ddbb49ac, type: 2}
+  m_sharedMaterial: {fileID: 5580260886504181593, guid: 72833b3d0357fe14c84221f3ddbb49ac, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1240,8 +1240,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Kliknij E aby kontynuowa\u0107"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 72833b3d0357fe14c84221f3ddbb49ac, type: 2}
+  m_sharedMaterial: {fileID: 5580260886504181593, guid: 72833b3d0357fe14c84221f3ddbb49ac, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
