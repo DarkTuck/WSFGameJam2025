@@ -116,6 +116,7 @@ namespace _Scripts
                 Time.timeScale = 0;
                 GameOver.SetActive(true);
                 alarmSound.enabled = false;
+                scoreText.text = $@"Ale urwa³. No co, w koñcu mówili ¿e reaktor jest poza kontrol¹! \nPrzynajmniej uda³o siê Wam utrzymaæ go w ryzach.\n{score} to liczba naprawionych przez ciebie modu³ów. \nNo co? Sowiecka innowacja";
                 foreach (var source in audioSources) { source.SetActive(false); }
             }
         }
