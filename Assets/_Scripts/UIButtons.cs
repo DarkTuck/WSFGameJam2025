@@ -49,6 +49,7 @@ public class UIButtons : MonoBehaviour
         maxIndex=sprites.Length - 1;
         storyBoard.sprite = sprites[index];
         type = textField.GetComponent<typewriterUI>();
+        type.writer=storyText[index];
         type.Write();
     }
 

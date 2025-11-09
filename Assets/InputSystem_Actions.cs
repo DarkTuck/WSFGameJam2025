@@ -1362,6 +1362,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""NextLine"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bce2fca8-89e6-4eaf-81a0-f1bb4ebfd9f9"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
